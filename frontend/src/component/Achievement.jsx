@@ -18,7 +18,7 @@ const competitions = [
         statusLabel: "Ongoing",
         color: "from-violet-500 to-purple-600",
         bgGlow: "rgba(139,92,246,0.12)",
-        icon: "/public/Images/logo-gemastik.png",
+        icon: "/Images/logo-gemastik.png",
     },
     {
         id: 2,
@@ -34,7 +34,7 @@ const competitions = [
         statusLabel: "Finalist",
         color: "from-sky-500 to-blue-600",
         bgGlow: "rgba(14,165,233,0.10)",
-        icon: "/public/Images/Logo-Branding-UNAIR-biru.png",
+        icon: "/Images/Logo-Branding-UNAIR-biru.png",
     },
 ];
 
