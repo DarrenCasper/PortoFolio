@@ -51,11 +51,17 @@ export const ContactSection = () => {
                 body: JSON.stringify(form),
             });
 
-            const data = await res.json();
-
             if (!res.ok) {
-                throw new Error(data.error ?? "Something went wrong.");
+                const contentType = res.headers.get("content-type") ?? "";
+                const data = contentType.includes("application/json")
+                    ? await res.json()
+                    : null;
+                throw new Error(
+                    data?.error ?? `Server error (${res.status}). Is the backend running?`
+                );
             }
+
+            const data = await res.json();
 
             toast.success("Message sent! I'll get back to you soon. 🚀", {
                 duration: 5000,
