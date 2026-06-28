@@ -9,83 +9,101 @@
   --color-primary-foreground: hsl(var(--primary-foreground));
 
   --color-card: hsl(var(--card));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-input: hsl(var(--input));
 
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-pulse-subtle: pulse-subtle 5s ease-in-out infinite;
   --animate-fade-in: fade-in 0.7s ease-out forwards;
   --animate-fade-in-delay-1: fade-in 0.7s ease-out 0.2s forwards;
   --animate-fade-in-delay-2: fade-in 0.7s ease-out 0.4s forwards;
   --animate-fade-in-delay-3: fade-in 0.7s ease-out 0.6s forwards;
   --animate-fade-in-delay-4: fade-in 0.7s ease-out 0.8s forwards;
-  --animate-meteor: meteor 5s linear infinite;
-  --animate-grow: grow 1.5s ease-out;
+  --animate-grow: grow 1.2s ease-out forwards;
+  --animate-gradient: gradient-shift 6s ease infinite;
+  --animate-aurora-1: aurora-move-1 22s ease-in-out infinite;
+  --animate-aurora-2: aurora-move-2 28s ease-in-out infinite;
+  --animate-aurora-3: aurora-move-3 20s ease-in-out infinite;
 
   @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
   }
   @keyframes pulse-subtle {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.8;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.65; }
   }
   @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes meteor {
-    0% {
-      transform: rotate(215deg) translateX(0);
-      opacity: 1;
-    }
-    70% {
-      opacity: 1;
-    }
-    100% {
-      transform: rotate(215deg) translateX(-500px);
-      opacity: 0;
-    }
+  @keyframes grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes aurora-move-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-40px, 25px) scale(1.06); }
+    66% { transform: translate(25px, -20px) scale(0.96); }
+  }
+  @keyframes aurora-move-2 {
+    0%, 100% { transform: translate(0, 0) scale(1.04); }
+    40% { transform: translate(35px, -30px) scale(0.94); }
+    70% { transform: translate(-20px, 15px) scale(1.08); }
+  }
+  @keyframes aurora-move-3 {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-52%, -48%) scale(1.08); }
   }
 }
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 220 20% 97%;
+    --foreground: 224 40% 12%;
 
     --card: 0 0% 100%;
 
-    --primary: 250 47% 60%;
+    --primary: 252 56% 57%;
     --primary-foreground: 210 40% 98%;
 
-    --border: 214 32% 91%;
+    --secondary: 220 16% 91%;
+    --secondary-foreground: 224 30% 30%;
+
+    --muted: 220 16% 91%;
+    --muted-foreground: 220 12% 46%;
+
+    --border: 220 18% 88%;
+    --input: 220 18% 84%;
   }
 
   .dark {
-    --background: 222 47% 4%;
-    --foreground: 213 31% 91%;
+    --background: 226 35% 5%;
+    --foreground: 220 20% 90%;
 
-    --card: 222 47% 8%;
+    --card: 226 30% 9%;
 
-    --primary: 250 65% 65%;
-    --primary-foreground: 213 31% 91%;
+    --primary: 252 70% 65%;
+    --primary-foreground: 220 20% 98%;
 
-    --border: 217 33% 20%;
+    --secondary: 226 28% 13%;
+    --secondary-foreground: 220 20% 72%;
+
+    --muted: 226 28% 13%;
+    --muted-foreground: 220 14% 58%;
+
+    --border: 226 24% 18%;
+    --input: 226 24% 15%;
   }
 
   * {
@@ -94,65 +112,115 @@
 
   html {
     @apply scroll-smooth;
+    font-family: var(--font-sans);
   }
 
   body {
     @apply bg-background text-foreground transition-colors duration-300;
+    font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Aurora background blobs */
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+.aurora-1 {
+  width: 700px;
+  height: 450px;
+  background: radial-gradient(ellipse, rgba(139, 92, 246, 0.09) 0%, transparent 70%);
+  top: 5%;
+  left: 15%;
+  filter: blur(60px);
+  animation: aurora-move-1 22s ease-in-out infinite;
+}
+.aurora-2 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.07) 0%, transparent 70%);
+  bottom: 10%;
+  right: 10%;
+  filter: blur(80px);
+  animation: aurora-move-2 28s ease-in-out infinite;
+}
+.aurora-3 {
+  width: 500px;
+  height: 350px;
+  background: radial-gradient(ellipse, rgba(168, 85, 247, 0.06) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  filter: blur(70px);
+  animation: aurora-move-3 20s ease-in-out infinite;
 }
 
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
 
-  @media (width >= 640px) {
-    max-width: 640px;
-  }
-  @media (width >= 768px) {
-    max-width: 768px;
-  }
-  @media (width >= 1024px) {
-    max-width: 1024px;
-  }
-  @media (width >= 1280px) {
-    max-width: 1280px;
-  }
-  @media (width >= 1400px) {
-    max-width: 1400px;
-  }
+  @media (width >= 640px) { max-width: 640px; }
+  @media (width >= 768px) { max-width: 768px; }
+  @media (width >= 1024px) { max-width: 1024px; }
+  @media (width >= 1280px) { max-width: 1280px; }
+  @media (width >= 1400px) { max-width: 1400px; }
+}
+
+@utility font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
 }
 
 @utility text-glow {
-  @apply relative;
-  text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+  text-shadow: 0 0 24px rgba(139, 92, 246, 0.45);
+}
+
+@utility text-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)), #c084fc, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility text-gradient-animated {
+  background: linear-gradient(90deg, hsl(var(--primary)), #c084fc, #60a5fa, #a78bfa, hsl(var(--primary)));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 6s ease infinite;
+}
+
+@utility dot-grid {
+  background-image: radial-gradient(circle, rgba(139, 92, 246, 0.14) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 @utility card-hover {
-  @apply transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg;
+  @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10;
 }
 
-@utility gradient-border {
-  @apply relative rounded-md;
-  background: linear-gradient(to right, hsl(var(--card)), hsl(var(--card)));
-  background-clip: padding-box;
-  border: 1px solid transparent;
+@utility glow-card {
+  @apply bg-card rounded-xl border border-border transition-all duration-300;
 }
 
 @utility cosmic-button {
-  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium 
-         transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
+  @apply px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium font-heading
+         transition-all duration-300 hover:shadow-[0_0_22px_rgba(139,92,246,0.45)]
          hover:scale-105 active:scale-95;
 }
 
-@utility star {
-  @apply absolute rounded-full bg-white;
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
-}
-
-@utility meteor {
-  @apply absolute bg-linear-to-r from-white via-white to-transparent rounded-full;
-  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+@utility section-heading {
+  font-family: var(--font-heading);
+  @apply text-3xl md:text-4xl font-bold mb-4 text-center;
+  letter-spacing: -0.02em;
 }
 
 #root {
